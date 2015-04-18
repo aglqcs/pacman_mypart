@@ -50,7 +50,8 @@ public class Pinky extends Ghost {
 
     @Override
     public void updateTargetPos() {
-        if (this.mode != GhostMode.CHASE) {
+    	// also Pinky not used
+   /*     if (this.mode != GhostMode.CHASE) {
             return;
             
         }
@@ -62,6 +63,7 @@ public class Pinky extends Ghost {
         if (pacman.dir == Direction.UP) {
             this.targetPos[1] -= 32;
         }
+        */
     }
     
     @Override

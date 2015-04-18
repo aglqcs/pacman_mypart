@@ -218,7 +218,8 @@ public class Playfield extends BaseEntity {
     private int dotsEaten;
     private Map<Integer, Map<Integer, PathElement>> playfield;
 
-    private Pacman pacman;
+    private Pacman []pacman;
+    
     private Ghost[] ghosts;
 
     private Door door;
@@ -477,11 +478,14 @@ public class Playfield extends BaseEntity {
     }
 
     private void createActorElements() {
-        pacman = new Pacman(
+    	pacman = new Pacman[4];
+    	for(int i = 0;i < 4;i ++){
+    		pacman[i] = new Pacman(
                         getAppearance().getSourceImage(),
                         game);
-        pacman.init();
-        pacman.setParent(this);
+    		pacman[i].init();
+    		pacman[i].setParent(this);
+    	}
 
         {
             List<Ghost> gs = new ArrayList<Ghost>();
@@ -617,7 +621,7 @@ public class Playfield extends BaseEntity {
         getAppearance().drawBitmap(canvas);
     }
 
-    public Pacman getPacman() {
+    public Pacman[] getPacman() {
         return pacman;
     }
     

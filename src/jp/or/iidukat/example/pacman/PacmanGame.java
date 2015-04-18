@@ -841,7 +841,8 @@ public class PacmanGame {
     }
 
     private void restartActors() {
-        getPacman().arrange();
+    	for(int i = 0;i < 4;i ++)
+        getPacman()[i].arrange();
 
         for (PlayfieldActor ghost : getGhosts())
             ghost.arrange();
@@ -876,15 +877,26 @@ public class PacmanGame {
         float cx = x - offset[1];
         float cy = y - offset[0];
         
-        Pacman pacman = getPacman();
-        float px = pacman.getFieldX() + 48;
-        float py = pacman.getFieldY() + 32;
+        Pacman[] pacman = getPacman();
+        for(int i = 0;i < 4;i ++){
+        float px = pacman[i].getFieldX() + 48;
+        float py = pacman[i].getFieldY() + 32;
         float xdiff = Math.abs(cx - px);
         float ydiff = Math.abs(cy - py);
-        if (xdiff > 8 && ydiff < xdiff) {
-            pacman.setRequestedDir(cx > px ? Direction.RIGHT : Direction.LEFT);
-        } else if (ydiff > 8 && xdiff < ydiff) {
-            pacman.setRequestedDir(cy > py ? Direction.DOWN : Direction.UP);
+        if( i == 0){
+	        if (xdiff > 8 && ydiff < xdiff) {
+	            pacman[i].setRequestedDir(cx > px ? Direction.RIGHT : Direction.LEFT);
+	        } else if (ydiff > 8 && xdiff < ydiff) {
+	            pacman[i].setRequestedDir(cy > py ? Direction.DOWN : Direction.UP);
+	        }
+        }
+        else{
+        	  if (xdiff > 8 && ydiff < xdiff) {
+  	            pacman[i].setRequestedDir(cx > px ? Direction.LEFT : Direction.RIGHT);
+  	        } else if (ydiff > 8 && xdiff < ydiff) {
+  	            pacman[i].setRequestedDir(cy > py ? Direction.UP : Direction.DOWN);
+  	        }
+        }
         }
     }
 
@@ -935,13 +947,15 @@ public class PacmanGame {
 
         float absDx = Math.abs(touchDX);
         float absDy = Math.abs(touchDY);
-        Pacman pacman = getPacman();
-        if (absDx < 8 && absDy < 8) {
-            canvasClicked(touchStartX, touchStartY);
-        } else if (absDx > 15 && absDy < absDx * 2 / 3) {
-            pacman.setRequestedDir(touchDX > 0 ? Direction.RIGHT : Direction.LEFT);
-        } else if (absDy > 15 && absDx < absDy * 2 / 3) {
-            pacman.setRequestedDir(touchDY > 0 ? Direction.DOWN : Direction.UP);
+        Pacman []pacman = getPacman();
+        for(int i = 0;i < 4;i ++){
+	        if (absDx < 8 && absDy < 8) {
+	            canvasClicked(touchStartX, touchStartY);
+	        } else if (absDx > 15 && absDy < absDx * 2 / 3) {
+	            pacman[i].setRequestedDir(touchDX > 0 ? Direction.RIGHT : Direction.LEFT);
+	        } else if (absDy > 15 && absDx < absDy * 2 / 3) {
+	            pacman[i].setRequestedDir(touchDY > 0 ? Direction.DOWN : Direction.UP);
+	        }
         }
         cancelTouch();
     }
@@ -1099,11 +1113,13 @@ public class PacmanGame {
                 }
             }
 
-            Pacman pacman = getPacman();
-            pacman.setFullSpeed(currentPlayerSpeed);
-            pacman.setDotEatingSpeed(currentDotEatingSpeed);
-            pacman.setTunnelSpeed(currentPlayerSpeed);
-            pacman.changeSpeed();
+            Pacman []pacman = getPacman();
+            for(int i = 0;i < 4;i ++){
+	            pacman[i].setFullSpeed(currentPlayerSpeed);
+	            pacman[i].setDotEatingSpeed(currentDotEatingSpeed);
+	            pacman[i].setTunnelSpeed(currentPlayerSpeed);
+	            pacman[i].changeSpeed();
+            }
         }
     }
 
@@ -1152,7 +1168,8 @@ public class PacmanGame {
     public void dotEaten(int[] dotPos) {
         getPlayfieldEl().decrementDotsRemaining();
         getPlayfieldEl().incrementDotsEaten();
-        getPacman().changeSpeed(CurrentSpeed.PACMAN_EATING_DOT);
+        //here I just delete this speed change
+       // getPacman().changeSpeed(CurrentSpeed.PACMAN_EATING_DOT);
         playDotEatingSound();
         if (getPathElement(dotPos[1], dotPos[0]).getDot() == Dot.ENERGIZER) { // when eating an energizer
             switchMainGhostMode(GhostMode.FRIGHTENED, false);
@@ -1214,7 +1231,8 @@ public class PacmanGame {
     }
 
     private void moveActors() {
-        getPacman().move();
+    	for(int i = 0;i < 4;i ++)
+    		getPacman()[i].move();
         Ghost[] ghosts = getGhosts();
         for (PlayfieldActor actor : ghosts) {
             actor.move();
@@ -1235,22 +1253,24 @@ public class PacmanGame {
 
     private void detectCollisions() {
         tilesChanged = false;
-        Pacman pacman = getPacman();
+        Pacman[] pacman = getPacman();
         Ghost[] ghosts = getGhosts();
         for (int i = 0; i < 1; i++) {
-            if (ghosts[i].getTilePos()[0] == pacman.getTilePos()[0]
-                    && ghosts[i].getTilePos()[1] == pacman.getTilePos()[1]) {
-                if (ghosts[i].getMode() == GhostMode.FRIGHTENED) {
-                    ghostDies(i);
-                    return;
-                } else if (ghosts[i].getMode() != GhostMode.EATEN
-                        && ghosts[i].getMode() != GhostMode.IN_PEN
-                        && ghosts[i].getMode() != GhostMode.LEAVING_PEN
-                        && ghosts[i].getMode() != GhostMode.RE_LEAVING_FROM_PEN
-                        && ghosts[i].getMode() != GhostMode.ENTERING_PEN) {
-                    pacmanDies();
-                }
-            }
+        	for(int j = 0;j < 4;j ++){
+	            if (ghosts[i].getTilePos()[0] == pacman[j].getTilePos()[0]
+	                    && ghosts[i].getTilePos()[1] == pacman[j].getTilePos()[1]) {
+	                if (ghosts[i].getMode() == GhostMode.FRIGHTENED) {
+	                    ghostDies(i);
+	                    return;
+	                } else if (ghosts[i].getMode() != GhostMode.EATEN
+	                        && ghosts[i].getMode() != GhostMode.IN_PEN
+	                        && ghosts[i].getMode() != GhostMode.LEAVING_PEN
+	                        && ghosts[i].getMode() != GhostMode.RE_LEAVING_FROM_PEN
+	                        && ghosts[i].getMode() != GhostMode.ENTERING_PEN) {
+	                    pacmanDies();
+	                }
+	            }
+        	}
         }
     }
 
@@ -1304,7 +1324,8 @@ public class PacmanGame {
     private void changeGameplayMode(GameplayMode mode) {
         gameplayMode = mode;
         if (mode != GameplayMode.CUTSCENE) {
-            getPacman().updateAppearance();
+        	for(int i = 0;i < 4;i ++)
+        		getPacman()[i].updateAppearance();
 
             Ghost[] ghosts = getGhosts();
             for (PlayfieldActor actor : ghosts) {
@@ -1458,7 +1479,8 @@ public class PacmanGame {
     }
 
     private void updateActorPositions() {
-        getPacman().updateElPos();
+    	for(int i = 0;i < 4;i ++)
+    		getPacman()[i].updateElPos();
         Ghost[] ghosts = getGhosts();
         for (PlayfieldActor actor : ghosts) {
             actor.updateElPos();
@@ -1483,7 +1505,8 @@ public class PacmanGame {
             switch (gameplayMode) {
             case PLAYER_DYING:
             case PLAYER_DIED:
-                getPacman().updateAppearance();
+            	for(int i = 0;i < 4;i ++)
+            		getPacman()[i].updateAppearance();
                 Ghost[] ghosts = getGhosts();
                 for (PlayfieldActor actor : ghosts) {
                     actor.updateAppearance();
@@ -1946,7 +1969,7 @@ public class PacmanGame {
         return canvasEl.getPlayfield();
     }
 
-    public Pacman getPacman() {
+    public Pacman[] getPacman() {
         if (canvasEl == null) {
             return null;
         }

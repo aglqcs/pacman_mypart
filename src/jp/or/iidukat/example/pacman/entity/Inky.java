@@ -58,12 +58,13 @@ public class Inky extends Ghost {
     
     @Override
     public void updateTargetPos() {
-        if (this.mode != GhostMode.CHASE) {
+    	// delete this funtion because Inky nolonger used
+  /*      if (this.mode != GhostMode.CHASE) {
             return;
         }
         
         // the player are attacked on both sides by Inky and Blinky
-        PlayfieldActor pacman = game.getPacman();
+        PlayfieldActor[] pacman = game.getPacman();
         Move pacmanMove = pacman.dir.getMove();
         PlayfieldActor blinky = game.getBlinky();
         float[] pacmanDest = new float[] { pacman.tilePos[0], pacman.tilePos[1] };
@@ -73,6 +74,7 @@ public class Inky extends Ghost {
         }
         this.targetPos[0] = pacmanDest[0] * 2 - blinky.tilePos[0];
         this.targetPos[1] = pacmanDest[1] * 2 - blinky.tilePos[1];
+        */
     }
     
     @Override

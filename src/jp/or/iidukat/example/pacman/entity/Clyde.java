@@ -62,12 +62,14 @@ public class Clyde extends Ghost {
         }
         // If near the player, trace it.
         // If distant from the player,  go to the location assigned in the scatter mode.
-        PlayfieldActor pacman = game.getPacman();
-        float distance = getDistance(pacman.tilePos, this.tilePos);
-        this.targetPos =
-            distance > 64
-                ? new float[] { pacman.tilePos[0], pacman.tilePos[1] }
-                : this.scatterPos;
+        PlayfieldActor []pacman = game.getPacman();
+        for(int i = 0;i < 4;i ++){
+	        float distance = getDistance(pacman[i].tilePos, this.tilePos);
+	        this.targetPos =
+	            distance > 64
+	                ? new float[] { pacman[i].tilePos[0], pacman[i].tilePos[1] }
+	                : this.scatterPos;
+        }
     }
 
     @Override
