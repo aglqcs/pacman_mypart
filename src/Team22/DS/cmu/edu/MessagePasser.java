@@ -75,7 +75,7 @@ public class MessagePasser {
 	}
 
 	public MessagePasser(ArrayList<Node> nodes, String local_name,
-			TimeStampType type) throws Exception {
+			TimeStampType type){
 		Name = local_name;
 		SequenceNum = 0;
 		timeStamp = TimeStampFactory.buildTimeStamp(type);
