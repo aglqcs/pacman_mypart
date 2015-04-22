@@ -75,7 +75,7 @@ public class MessagePasser {
 	}
 
 	public MessagePasser(ArrayList<Node> nodes, String local_name,
-			TimeStampType type){
+			TimeStampType type) {
 		Name = local_name;
 		SequenceNum = 0;
 		timeStamp = TimeStampFactory.buildTimeStamp(type);
@@ -88,12 +88,12 @@ public class MessagePasser {
 		ReceiveBuffer = new ArrayList<TimeStampedMessage>();
 		SendBuffer = new ArrayList<TimeStampedMessage>();
 		Group gr = new Group();
-		for(Node n: this.nodes){
+		for (Node n : this.nodes) {
 			gr.addMember(n.getName());
 		}
 		gr.setGroupSeqNum(0);
 		groups.add(gr);
-		
+
 		this.MulitcastReceiveBuffer = new LinkedHashMap<Group, ArrayList<MulticastAckCountHelper>>();
 		for (Group g : groups)
 			this.MulitcastReceiveBuffer.put(g,
@@ -114,7 +114,7 @@ public class MessagePasser {
 			}
 		}
 	}
-	
+
 	public void send(Message message) {
 		message.setSequenceNum(SequenceNum++);
 		if (!message.isGroupMsg())
@@ -178,6 +178,7 @@ public class MessagePasser {
 	public TimeStampedMessage receive() {
 
 		// Check if config file has changed
+
 		CheckConfig();
 
 		TimeStampedMessage m = MessageReceivedQueue.poll();
@@ -222,7 +223,8 @@ public class MessagePasser {
 
 		// check if this node is a member of the multicast group
 		if (g.isMemberOf(this.Name)) {
-			MulitcastReceiveBuffer.get(g).add(new MulticastAckCountHelper(m, 1));
+			MulitcastReceiveBuffer.get(g)
+					.add(new MulticastAckCountHelper(m, 1));
 		}
 
 		m.setGroupSeqNum(g.getGroupSeqNum());
@@ -238,6 +240,8 @@ public class MessagePasser {
 	}
 
 	private void CheckConfig() {
+		if (ConfigFile == null)
+			return;
 		File file = new File(ConfigFile);
 		if (ModifiedTime < file.lastModified()) {
 			ModifiedTime = file.lastModified();
@@ -259,13 +263,14 @@ public class MessagePasser {
 				return g;
 		return null;
 	}
-	
-	public void sendAck(String dest, TimeStampedMessage m ){
-		if(dest.compareTo(this.Name)==0) return;
-		Message m2 = new Message(dest,"ack", m);
+
+	public void sendAck(String dest, TimeStampedMessage m) {
+		if (dest.compareTo(this.Name) == 0)
+			return;
+		Message m2 = new Message(dest, "ack", m);
 		send(m2);
 	}
-	
+
 	private void parseConfigFile(File file, boolean doProcessConfig) {
 		Yaml yaml = new Yaml();
 		try {
