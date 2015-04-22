@@ -1,8 +1,14 @@
 package jp.or.iidukat.example.pacman;
 
+import java.util.ArrayList;
+
+import Team22.DS.cmu.edu.MessagePasser;
+import Team22.DS.cmu.edu.Node;
+import Team22.DS.cmu.edu.TimeStampType;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -10,12 +16,29 @@ public class GooglePacman extends Activity implements OnClickListener {
 
     private PacmanGame game;
     private GameView gameView;
+    private MessagePasser mp;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        ArrayList<Node> nodes = new ArrayList<Node>();
+        Node n;
+        n = new Node();
+        n.setIp("127.0.0.1");
+        n.setName("me");
+        n.setPort(14456);
+        nodes.add(n);
+        n = new Node();
+        n.setIp("127.0.0.1");
+        n.setName("you");
+        n.setPort(17455);
+        try { 
+        	mp = new MessagePasser(nodes, "me", TimeStampType.LOGICAL);
+		} catch (Exception e) {
+			Log.d("msgPasser", "message passer failed"); 
+		}
         PacmanGame game = initGame();
+        
         initGameView(game);
         initMainView();
         

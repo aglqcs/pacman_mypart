@@ -74,6 +74,47 @@ public class MessagePasser {
 		}
 	}
 
+	public MessagePasser(ArrayList<Node> nodes, String local_name,
+			TimeStampType type) throws Exception {
+		Name = local_name;
+		SequenceNum = 0;
+		timeStamp = TimeStampFactory.buildTimeStamp(type);
+
+		ConfigFile = null;
+		sendRules = new ArrayList<Rule>();
+		receiveRules = new ArrayList<Rule>();
+		this.nodes = nodes;
+		groups = new ArrayList<Group>();
+		ReceiveBuffer = new ArrayList<TimeStampedMessage>();
+		SendBuffer = new ArrayList<TimeStampedMessage>();
+		Group gr = new Group();
+		for(Node n: this.nodes){
+			gr.addMember(n.getName());
+		}
+		gr.setGroupSeqNum(0);
+		groups.add(gr);
+		
+		this.MulitcastReceiveBuffer = new LinkedHashMap<Group, ArrayList<MulticastAckCountHelper>>();
+		for (Group g : groups)
+			this.MulitcastReceiveBuffer.put(g,
+					new ArrayList<MulticastAckCountHelper>());
+
+		if (type == TimeStampType.VECTOR) {
+			timeStamp.setLength(nodes.size());
+		}
+		for (int i = 0; i < nodes.size(); i++) {
+			Node n = nodes.get(i);
+			if (n.getName().compareTo(this.Name) == 0) {
+				if (type == TimeStampType.VECTOR)
+					timeStamp.setIndex(i);
+				ListenerThread listener = new ListenerThread(n.getPort(), this);
+				Thread t = new Thread(listener);
+				t.start();
+				break;
+			}
+		}
+	}
+	
 	public void send(Message message) {
 		message.setSequenceNum(SequenceNum++);
 		if (!message.isGroupMsg())
