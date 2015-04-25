@@ -23,7 +23,7 @@ public class ReceiveTask implements Runnable {
 	}
 
 	private void updatePos(String playerName, PosInfo coords) {
-		//update game object here
+		game.updatePositions(playerName, coords);
 	}
 
 }

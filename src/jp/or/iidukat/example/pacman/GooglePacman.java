@@ -2,6 +2,7 @@ package jp.or.iidukat.example.pacman;
 
 import java.util.ArrayList;
 
+import Team22.DS.cmu.edu.Message;
 import Team22.DS.cmu.edu.MessagePasser;
 import Team22.DS.cmu.edu.Node;
 import Team22.DS.cmu.edu.TimeStampType;
@@ -21,24 +22,35 @@ public class GooglePacman extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ArrayList<Node> nodes = new ArrayList<Node>();
-		Node n;
-		n = new Node();
-		n.setIp("127.0.0.1");
-		n.setName("me");
-		n.setPort(14456);
-		nodes.add(n);
-		n = new Node();
-		n.setIp("127.0.0.1");
-		n.setName("you");
-		n.setPort(17455);
-		mp = new MessagePasser(nodes, "me", TimeStampType.LOGICAL);
-		PacmanGame game = initGame();
-
+		ConfigureMessagePasser("player1");
+		//Log.d("sending","message");
+		//mp.send(new Message("jeff", "test", "testing"));
+		//Log.d("sent", "message was sent");
+		String[] names = {"player1", "player2", "player3", "player4"};
+		PacmanGame game = initGame(names);
+		ReceiveTask t = new ReceiveTask(game, mp);
+		Thread recThread = new Thread(t);
+		recThread.start();
 		initGameView(game);
 		initMainView();
 
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		//setVolumeControlStream(AudioManager.STREAM_MUSIC);
+	}
+
+	private void ConfigureMessagePasser(String name) {
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		Node n;
+		n = new Node();
+		n.setIp("10.0.2.2");
+		n.setName("player1");
+		n.setPort(13487);
+		nodes.add(n);
+		n = new Node();
+		n.setIp("10.0.2.2");
+		n.setName("player2");
+		n.setPort(14456);
+		nodes.add(n);
+		mp = new MessagePasser(nodes, name, TimeStampType.LOGICAL);
 	}
 
 	@Override
@@ -70,8 +82,8 @@ public class GooglePacman extends Activity implements OnClickListener {
 		gameView.game = game;
 	}
 
-	private PacmanGame initGame() {
-		game = new PacmanGame(this);
+	private PacmanGame initGame(String[] names) {
+		game = new PacmanGame(this, mp, names, 0);
 		game.init();
 		return game;
 	}

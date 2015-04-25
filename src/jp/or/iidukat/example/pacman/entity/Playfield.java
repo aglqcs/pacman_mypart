@@ -247,7 +247,7 @@ public class Playfield extends BaseEntity {
         a.setOrder(99);
     }
 
-    public void reset() {
+    public void reset(String[] names) {
         clearChildren();
         dotsRemaining = 0;
         dotsEaten = 0;
@@ -256,7 +256,7 @@ public class Playfield extends BaseEntity {
         preparePlayfield();
         preparePaths();
         prepareAllowedDirections();
-        createPlayfieldElements();
+        createPlayfieldElements(names);
     }
 
     private void determinePlayfieldDimensions() {
@@ -477,13 +477,13 @@ public class Playfield extends BaseEntity {
         door.setParent(this);
     }
 
-    private void createActorElements() {
+    private void createActorElements(String[] names) {
     	pacman = new Pacman[4];
     	for(int i = 0;i < 4;i ++){
     		pacman[i] = new Pacman(
                         getAppearance().getSourceImage(),
-                        game);
-    		pacman[i].init();
+                        game, names[i]);
+    		pacman[i].init(i);
     		pacman[i].setParent(this);
     	}
 
@@ -514,12 +514,12 @@ public class Playfield extends BaseEntity {
         }
     }
 
-    private void createPlayfieldElements() {
+    private void createPlayfieldElements(String[] names) {
         createDotElements();
         createEnergizerElements();
         createFruitElement();
         createDoorElement();
-        createActorElements();
+        createActorElements(names);
     }
     
     public void createReadyElement() {

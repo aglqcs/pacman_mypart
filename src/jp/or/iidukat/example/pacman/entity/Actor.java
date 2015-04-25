@@ -32,6 +32,30 @@ public abstract class Actor extends BaseEntity {
         this.elPos = new float[] { 0, 0 };
         this.elBackgroundPos = new int[] { 0, 0 };
     }
+    
+    void init(int i) {
+        Appearance a = getAppearance();
+        a.setWidth(16);
+        a.setHeight(16);
+        a.setTopOffset(-4);
+        a.setLeftOffset(-4);
+        a.prepareBkPos(0, 0);
+        a.setOrder(DEFAULT_DISPLAY_ORDER);
+
+        this.elPos = new float[] { 0, 0 };
+        this.elBackgroundPos = new int[] { 0, 0 };
+        switch (i){
+        case 0:
+        	//TODO:set starting positions here
+        	break;
+        case 1:
+        	break;
+        case 2:
+        	break;
+        case 3:
+        	break;
+        }
+    }
 
     public abstract void move();
 
