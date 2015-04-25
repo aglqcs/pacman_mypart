@@ -1692,8 +1692,10 @@ public class PacmanGame {
 		}
 		Message m = new Message("","posUpdate",getPacman()[ownerIndex].getPosInfo());
 		for(int i =0; i<4; i++)
-			if(i!=ownerIndex)
+			if(i!=ownerIndex){
+				m.setDestination(names[i]);
 				mp.send(m);
+			}
 		setTimeout();
 	}
 

@@ -88,6 +88,7 @@ public class MessagePasser {
 		ReceiveBuffer = new ArrayList<TimeStampedMessage>();
 		SendBuffer = new ArrayList<TimeStampedMessage>();
 		Group gr = new Group();
+		gr.setName("group");
 		for (Node n : this.nodes) {
 			gr.addMember(n.getName());
 		}
