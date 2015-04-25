@@ -43,12 +43,12 @@ public class GooglePacman extends Activity implements OnClickListener {
 		n = new Node();
 		n.setIp("10.0.2.2");
 		n.setName("player1");
-		n.setPort(13487);
+		n.setPort(13500);
 		nodes.add(n);
 		n = new Node();
 		n.setIp("10.0.2.2");
 		n.setName("player2");
-		n.setPort(14456);
+		n.setPort(14500);
 		nodes.add(n);
 		n = new Node();
 		n.setIp("10.0.2.2");

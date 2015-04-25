@@ -1,6 +1,9 @@
 package jp.or.iidukat.example.pacman;
 
-public class PosInfo {
+import java.io.Serializable;
+
+public class PosInfo implements Serializable{
+	private static final long serialVersionUID = -1560851305174716893L;
 	public float x;
 	public float y;
 	public Direction d;

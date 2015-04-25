@@ -1,9 +1,10 @@
 package jp.or.iidukat.example.pacman;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Direction {
+public enum Direction implements Serializable{
     NONE(0) {
         @Override
         public Move getMove() {

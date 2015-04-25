@@ -2148,6 +2148,7 @@ public class PacmanGame {
 	public void updatePositions(String playerName, PosInfo coords) {
 		Pacman[] m = getPacman();
 		Pacman tmp=null;
+		if(m==null)return;
 		for (int i = 0; i < 4; i++)
 			if (playerName.compareTo(m[i].getName()) == 0) {
 				tmp = m[i];
