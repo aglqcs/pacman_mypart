@@ -36,6 +36,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class PacmanGame {
@@ -803,7 +804,7 @@ public class PacmanGame {
 
 	private String[] names;
 
-	private int ownerIndex; //index into the names array of the owners name
+	private int ownerIndex; // index into the names array of the owners name
 
 	private MessagePasser mp;
 
@@ -868,7 +869,7 @@ public class PacmanGame {
 			float py = pacman[i].getFieldY() + 32;
 			float xdiff = Math.abs(cx - px);
 			float ydiff = Math.abs(cy - py);
-			if (i == 0) {
+			if (i == ownerIndex) {
 				if (xdiff > 8 && ydiff < xdiff) {
 					pacman[i].setRequestedDir(cx > px ? Direction.RIGHT
 							: Direction.LEFT);
@@ -876,16 +877,16 @@ public class PacmanGame {
 					pacman[i].setRequestedDir(cy > py ? Direction.DOWN
 							: Direction.UP);
 				}
-			} else {
-				if (xdiff > 8 && ydiff < xdiff) {
-					pacman[i].setRequestedDir(cx > px ? Direction.LEFT
-							: Direction.RIGHT);
-				} else if (ydiff > 8 && xdiff < ydiff) {
-					pacman[i].setRequestedDir(cy > py ? Direction.UP
-							: Direction.DOWN);
-				}
 			}
 		}
+		Message m = new Message("", "posUpdate",
+				getPacman()[ownerIndex].getPosInfo());
+		for (int i = 0; i < 4; i++)
+			if (i != ownerIndex) {
+				Log.d("sending", m.toString());
+				m.setDestination(names[i]);
+				mp.send(m);
+			}
 	}
 
 	private boolean handleSoundIconClick(float x, float y) {
@@ -1690,9 +1691,10 @@ public class PacmanGame {
 				handleTimers();
 			}
 		}
-		Message m = new Message("","posUpdate",getPacman()[ownerIndex].getPosInfo());
-		for(int i =0; i<4; i++)
-			if(i!=ownerIndex){
+		Message m = new Message("", "posUpdate",
+				getPacman()[ownerIndex].getPosInfo());
+		for (int i = 0; i < 4; i++)
+			if (i != ownerIndex) {
 				m.setDestination(names[i]);
 				mp.send(m);
 			}
@@ -2147,14 +2149,15 @@ public class PacmanGame {
 
 	public void updatePositions(String playerName, PosInfo coords) {
 		Pacman[] m = getPacman();
-		Pacman tmp=null;
-		if(m==null)return;
+		Pacman tmp = null;
+		if (m == null)
+			return;
 		for (int i = 0; i < 4; i++)
 			if (playerName.compareTo(m[i].getName()) == 0) {
 				tmp = m[i];
 				break;
 			}
-		if(tmp!=null)
+		if (tmp != null)
 			tmp.updatePosInfo(coords);
 	}
 }
