@@ -21,7 +21,7 @@ public class Pacman extends PlayfieldActor {
 	private String name;
 
 	public PosInfo getPosInfo(){
-		return new PosInfo(this.pos[1], this.pos[0], this.dir, name);
+		return new PosInfo(this.pos[1], this.pos[0], this.requestedDir, name);
 	}
 
 	public String getName() {

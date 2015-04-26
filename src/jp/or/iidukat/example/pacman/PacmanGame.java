@@ -865,11 +865,11 @@ public class PacmanGame {
 
 		Pacman[] pacman = getPacman();
 		for (int i = 0; i < 4; i++) {
-			float px = pacman[i].getFieldX() + 48;
-			float py = pacman[i].getFieldY() + 32;
-			float xdiff = Math.abs(cx - px);
-			float ydiff = Math.abs(cy - py);
 			if (i == ownerIndex) {
+				float px = pacman[i].getFieldX() + 48;
+				float py = pacman[i].getFieldY() + 32;
+				float xdiff = Math.abs(cx - px);
+				float ydiff = Math.abs(cy - py);
 				if (xdiff > 8 && ydiff < xdiff) {
 					pacman[i].setRequestedDir(cx > px ? Direction.RIGHT
 							: Direction.LEFT);
