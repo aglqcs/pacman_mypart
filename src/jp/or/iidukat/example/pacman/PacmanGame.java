@@ -881,9 +881,9 @@ public class PacmanGame {
 		}
 		Message m = new Message("", "posUpdate",
 				getPacman()[ownerIndex].getPosInfo());
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 2; i++)
 			if (i != ownerIndex) {
-				Log.d("sending", m.toString());
+				Log.d("sending", names[i]);
 				m.setDestination(names[i]);
 				mp.send(m);
 			}
