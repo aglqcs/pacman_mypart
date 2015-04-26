@@ -22,16 +22,25 @@ public class GooglePacman extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ConfigureMessagePasser("player1");
-		String[] names = {"player1", "player2", "player3", "player4"};
-		PacmanGame game = initGame(names, 0);
+		String name = "player1";
+		ConfigureMessagePasser(name);
+		String[] names = { "player1", "player2", "player3", "player4" };
+		PacmanGame game = initGame(names, getIndex(names, name));
 		ReceiveTask t = new ReceiveTask(game, mp);
 		Thread recThread = new Thread(t);
 		recThread.start();
 		initGameView(game);
 		initMainView();
 
-		//setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		// setVolumeControlStream(AudioManager.STREAM_MUSIC);
+	}
+
+	private int getIndex(String[] names, String name) {
+		for (int i = 0; i < names.length; i++)
+			if (names[i].compareTo(name) == 0)
+				return i;
+		Log.d("dumbError", "name not in names array");
+		return -1;
 	}
 
 	private void ConfigureMessagePasser(String name) {
@@ -51,12 +60,12 @@ public class GooglePacman extends Activity implements OnClickListener {
 		n.setIp("10.0.2.2");
 		n.setName("player3");
 		n.setPort(16743);
-		//nodes.add(n);
+		// nodes.add(n);
 		n = new Node();
 		n.setIp("10.0.2.2");
 		n.setName("player4");
 		n.setPort(18832);
-		//nodes.add(n);
+		// nodes.add(n);
 		mp = new MessagePasser(nodes, name, TimeStampType.LOGICAL);
 	}
 

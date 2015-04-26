@@ -13,6 +13,7 @@ import jp.or.iidukat.example.pacman.entity.Playfield.PathElement.Dot;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.FloatMath;
+import android.util.Log;
 
 public class Playfield extends BaseEntity {
 
@@ -551,6 +552,13 @@ public class Playfield extends BaseEntity {
     }
 
     public PathElement getPathElement(int x, int y) {
+    	if(playfield==null)
+    		Log.d("pathelem","playfieldNull");
+    	Map<Integer,PathElement> d = playfield.get(Integer.valueOf(y));
+    	if(d==null){
+    		Log.d("pathElem","yCoord not found");
+    		return null;
+    	}
         return playfield.get(Integer.valueOf(y)).get(Integer.valueOf(x));
     }
 
