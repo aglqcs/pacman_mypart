@@ -10,6 +10,7 @@
  * */
 package Team22.DS.cmu.edu;
 
+import jp.or.iidukat.example.pacman.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,6 +19,8 @@ import java.util.concurrent.BlockingQueue;
 import java.io.*;
 
 import org.yaml.snakeyaml.Yaml;
+
+import android.util.Log;
 
 public class MessagePasser {
 	private String Name;
@@ -172,7 +175,8 @@ public class MessagePasser {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.d(((PosInfo)timeMessage.getData()).player, "err");
+			//e.printStackTrace();
 		}
 	}
 

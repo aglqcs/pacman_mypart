@@ -1,5 +1,6 @@
 package jp.or.iidukat.example.pacman;
 
+import android.util.Log;
 import Team22.DS.cmu.edu.Message;
 import Team22.DS.cmu.edu.MessagePasser;
 
@@ -18,6 +19,9 @@ public class ReceiveTask implements Runnable {
 		Message m;
 		for (;;) {
 			m = passer.receive();
+			Log.d("recTask", "message received");
+			PosInfo pi = (PosInfo)m.getData();
+			Log.d(m.getSource(), "x:"+pi.x+" y:"+pi.y+" d:"+pi.d);
 			updatePos(m.getSource(), (PosInfo) m.getData());
 		}
 	}

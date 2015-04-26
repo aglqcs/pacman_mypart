@@ -23,11 +23,8 @@ public class GooglePacman extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ConfigureMessagePasser("player1");
-		//Log.d("sending","message");
-		//mp.send(new Message("jeff", "test", "testing"));
-		//Log.d("sent", "message was sent");
 		String[] names = {"player1", "player2", "player3", "player4"};
-		PacmanGame game = initGame(names);
+		PacmanGame game = initGame(names, 0);
 		ReceiveTask t = new ReceiveTask(game, mp);
 		Thread recThread = new Thread(t);
 		recThread.start();
@@ -41,12 +38,12 @@ public class GooglePacman extends Activity implements OnClickListener {
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		Node n;
 		n = new Node();
-		n.setIp("172.25.3.251");
+		n.setIp("10.0.2.2");
 		n.setName("player1");
 		n.setPort(13500);
 		nodes.add(n);
 		n = new Node();
-		n.setIp("128.237.210.236");
+		n.setIp("10.0.2.2");
 		n.setName("player2");
 		n.setPort(14500);
 		nodes.add(n);
@@ -92,8 +89,8 @@ public class GooglePacman extends Activity implements OnClickListener {
 		gameView.game = game;
 	}
 
-	private PacmanGame initGame(String[] names) {
-		game = new PacmanGame(this, mp, names, 0);
+	private PacmanGame initGame(String[] names, int thisIndex) {
+		game = new PacmanGame(this, mp, names, thisIndex);
 		game.init();
 		return game;
 	}

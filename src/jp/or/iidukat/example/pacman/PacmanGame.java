@@ -1683,7 +1683,6 @@ public class PacmanGame {
 						updateActorTargetPositions();
 					}
 				}
-
 				globalTime++;
 				intervalTime = (intervalTime + 1) % DEFAULT_FPS;
 				blinkEnergizers();
@@ -1691,13 +1690,6 @@ public class PacmanGame {
 				handleTimers();
 			}
 		}
-		Message m = new Message("", "posUpdate",
-				getPacman()[ownerIndex].getPosInfo());
-		for (int i = 0; i < 4; i++)
-			if (i != ownerIndex) {
-				m.setDestination(names[i]);
-				mp.send(m);
-			}
 		setTimeout();
 	}
 
