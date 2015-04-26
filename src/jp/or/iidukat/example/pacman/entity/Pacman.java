@@ -20,7 +20,7 @@ public class Pacman extends PlayfieldActor {
 
 	private String name;
 
-	public PosInfo getPosInfo(){
+	public PosInfo getPosInfo() {
 		return new PosInfo(this.pos[1], this.pos[0], this.requestedDir, name);
 	}
 
@@ -90,10 +90,11 @@ public class Pacman extends PlayfieldActor {
 			this.nextDir = Direction.NONE;
 		} else if (this.dir != inputDir) {
 			if (this.dir == Direction.NONE) {
-				if (game.getPathElement((int) this.pos[1], (int) this.pos[0])
-						.allow(inputDir)) {
-					this.dir = inputDir;
-				}
+				if (game.getPathElement((int) this.pos[1], (int) this.pos[0]) != null)
+					if (game.getPathElement((int) this.pos[1],
+							(int) this.pos[0]).allow(inputDir)) {
+						this.dir = inputDir;
+					}
 			} else {
 				PathElement p = game.getPathElement(this.tilePos[1],
 						this.tilePos[0]);
@@ -342,8 +343,8 @@ public class Pacman extends PlayfieldActor {
 
 	public void updatePosInfo(PosInfo coords) {
 		this.requestedDir = coords.d;
-		this.pos[1]=coords.x;
-		this.pos[0]=coords.y;
+		this.pos[1] = coords.x;
+		this.pos[0] = coords.y;
 	}
 
 }

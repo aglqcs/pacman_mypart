@@ -119,7 +119,6 @@ public class Playfield extends BaseEntity {
 
         public int getX() {
             return x;
-        }
 
         public int getY() {
             return y;
@@ -557,7 +556,7 @@ public class Playfield extends BaseEntity {
     	Map<Integer,PathElement> d = playfield.get(Integer.valueOf(y));
     	if(d==null){
     		Log.d("pathElem","yCoord not found");
-    		return null;
+    		return new PathElement();
     	}
         return playfield.get(Integer.valueOf(y)).get(Integer.valueOf(x));
     }
